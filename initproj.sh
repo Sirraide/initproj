@@ -23,7 +23,7 @@ cd "$1"
 mkdir out
 
 ## Copy files from the template directory.
-dir="$(dirname "$0")"
+dir="$(dirname "$(realpath "$0")")"
 cp -r "$dir"/src src
 cp -r "$dir"/idea .idea
 cp "$dir"/.gitignore .
@@ -39,3 +39,4 @@ find .idea -type f -exec grep -q hello {} \; -print0 | xargs -0 sed -i "s/hello/
 git init
 git submodule add https://github.com/fmtlib/fmt libs/fmt
 git submodule add https://github.com/Sirraide/clopts libs/clopts
+git add .
