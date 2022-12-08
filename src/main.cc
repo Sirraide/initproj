@@ -1,5 +1,5 @@
 #include <fmt/format.h>
 
 int main() {
-    fmt::print("Hello, {}!", "world");
+    fmt::print("Hello, {}!\n", "world");
 }
