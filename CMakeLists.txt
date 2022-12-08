@@ -62,7 +62,8 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clan
         -Werror=missing-include-dirs # User-specified include dir does not exist.
         -Werror=pointer-arith        # Disallow void* and function pointer arithmetic.
         -Werror=string-compare       # Nonsensical string comparisons.
-        -Werror=switch-enum          # Switch on enum (even if there is a default case).
+        -Werror=switch               # Missing switch cases.
+        # -Werror=switch-enum          # Switch on enum (even if there is a default case).
         -Werror=write-strings        # Strings in C should be const char*.
 
         ## C++.
@@ -127,10 +128,19 @@ endif()
 ## As well as everything in ‘libs’.
 if (EXISTS ${PROJECT_SOURCE_DIR}/libs)
     file(GLOB libs ${PROJECT_SOURCE_DIR}/libs/*)
-    target_include_directories(options INTERFACE ${libs})
 
-    ## Also add all of them as subdirectories.
-    add_subdirectory(${libs})
+    foreach(lib ${libs})
+        if (IS_DIRECTORY ${lib}/include)
+            target_include_directories(options INTERFACE ${lib}/include)
+        endif()
+    endforeach()
+
+    ## Also add all of them as subdirectories if they have a CMakeLists.txt.
+    foreach (lib ${libs})
+        if (EXISTS ${lib}/CMakeLists.txt)
+            add_subdirectory(${lib})
+        endif()
+    endforeach()
 endif()
 
 ## ============================================================================
