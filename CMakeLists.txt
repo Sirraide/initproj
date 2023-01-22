@@ -86,11 +86,15 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
 
         # Allow unnamed structs/unions.
         /wd4201
+    )
+endif()
 
-        # Don’t suggest the _s nonsense functions.
-        /D_CRT_SECURE_NO_WARNINGS
-        /D_CRT_SECURE_NO_WARNINGS_GLOBALS
-        /D_CRT_NONSTDC_NO_WARNINGS
+## On Windows, don’t suggest the _s nonsense functions.
+if (WIN32)
+    target_compile_definitions(func PRIVATE
+        _CRT_SECURE_NO_WARNINGS
+        _CRT_SECURE_NO_WARNINGS_GLOBALS
+        _CRT_NONSTDC_NO_WARNINGS
     )
 endif()
 
