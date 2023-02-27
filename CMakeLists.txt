@@ -133,9 +133,13 @@ endif()
 if (EXISTS ${PROJECT_SOURCE_DIR}/libs)
     file(GLOB libs ${PROJECT_SOURCE_DIR}/libs/*)
 
+    ## Add the include directory to the include path, or the root
+    ## directory if there is no include directory.
     foreach(lib ${libs})
         if (IS_DIRECTORY ${lib}/include)
             target_include_directories(options INTERFACE ${lib}/include)
+        else()
+            target_include_directories(options INTERFACE ${lib})
         endif()
     endforeach()
 
