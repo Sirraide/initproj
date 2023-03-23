@@ -16,14 +16,14 @@ AccessModifierOffset: -4
 ##
 AlignAfterOpenBracket: BlockIndent
 
-## Align arrays or initialiser lists of structures like so:
+## DONT Align arrays or initialiser lists of structures like so:
 ##
 ##     struct test demo[] = {
 ##         {56,    23, "hello"},
 ##         {-1, 93463, "world"},
 ##         { 7,     5,    "!!"}
 ##     };
-AlignArrayOfStructures: Right
+AlignArrayOfStructures: None
 
 ## Don’t align assignments because that leads to too much extra whitespace.
 AlignConsecutiveAssignments: None
@@ -96,7 +96,7 @@ AllowAllParametersOfDeclarationOnNextLine: false
 ##
 ##     auto lambda []() { return 0; }
 ##
-##     ##     for (;;) foo();
+##     for (;;) foo();
 AllowShortBlocksOnASingleLine: Always
 AllowShortCaseLabelsOnASingleLine: true
 AllowShortEnumsOnASingleLine: true
@@ -119,8 +119,8 @@ AlwaysBreakAfterReturnType: None
 AlwaysBreakBeforeMultilineStrings: true
 
 ## Don’t force break template declarations (i.e. the template
-## param list and the rest of the signature/definition) may be
-## on the same line.
+## param list and the rest of the signature/definition may be
+## on the same line).
 AlwaysBreakTemplateDeclarations: No
 
 ## Identifiers that should be interpreted as attributes.
@@ -311,7 +311,7 @@ PointerAlignment: Left
 QualifierAlignment: Leave
 
 ## I suck at being consistent about this, so therefore:
-## TODO: Figure out why this isn’t working
+## TODO: Figure out why CLion’s clang-format is rejecting this...
 #QualifierOrder: ['friend', 'static', 'inline', 'constexpr', 'const', 'volatile', 'restrict', 'type']
 
 ## Should always be left, unless C decides to add references some day.
