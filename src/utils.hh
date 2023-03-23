@@ -14,7 +14,7 @@ using i8 = int8_t;
 using i16 = int16_t;
 using i32 = int32_t;
 using i64 = int64_t;
-using isz = size_t;
+using isz = ptrdiff_t;
 using iptr = intptr_t;
 
 #define STR_(X) #X
