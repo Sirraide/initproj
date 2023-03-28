@@ -55,7 +55,7 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clan
 
         ## Return type.
         -Werror=return-type
-        -Werror=missing-noreturn
+        -Wmissing-noreturn
 
         ## C/C++.
         -Werror=implicit-fallthrough

@@ -16,13 +16,7 @@ AccessModifierOffset: -4
 ##
 AlignAfterOpenBracket: BlockIndent
 
-## DONT Align arrays or initialiser lists of structures like so:
-##
-##     struct test demo[] = {
-##         {56,    23, "hello"},
-##         {-1, 93463, "world"},
-##         { 7,     5,    "!!"}
-##     };
+## Don’t align arrays or initialiser lists.
 AlignArrayOfStructures: None
 
 ## Don’t align assignments because that leads to too much extra whitespace.
