@@ -33,7 +33,6 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clan
         -Wcast-align      # Casting that changes alignment.
         -Wconversion      # Implicit conversions.
         -Wsign-conversion # Implicit sign conversions.
-        -Wlogical-op      # Duplicate or unintended logical operators.
         -Wformat=2        # Stricter format checking.
 
         ## Disabled warnings.
@@ -42,16 +41,12 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clan
         -Wno-unused-parameter
 
         ## NULL Errors.
-        -Werror=null-dereference
         -Werror=nonnull # Passing NULL to nonnull parameter.
 
         ## Memory Errors.
         -Werror=address              # Suspicious use of addresses.
         -Werror=init-self            # Initialization of a variable with itself.
-        -Werror=invalid-memory-model # For atomics.
-        -Werror=maybe-uninitialized
         -Werror=uninitialized
-        -Werror=return-local-addr
 
         ## Return type.
         -Werror=return-type
@@ -68,15 +63,28 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clan
 
         ## C++.
         -Werror=missing-field-initializers
-        -Werror=missing-requires
         -Werror=non-virtual-dtor
         -Werror=pessimizing-move
     )
 endif()
 
+## Additional flags for GCC.
+if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    target_compile_options(options INTERFACE 
+        -Wlogical-op      # Duplicate or unintended logical operators.
+        -Werror=invalid-memory-model # For atomics.
+        -Werror=maybe-uninitialized
+        -Werror=missing-requires
+        -Werror=return-local-addr
+    )
+endif()
+
 ## Additional flags for Clang.
 if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-    target_compile_options(options INTERFACE -Werror=dangling )
+    target_compile_options(options INTERFACE 
+        -Werror=dangling 
+        -Werror=return-stack-address
+    )
 endif()
 
 ## Flags for MSVC.
