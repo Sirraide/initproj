@@ -29,6 +29,7 @@ cp -r "$dir"/idea .idea
 cp "$dir"/.gitignore .
 cp "$dir"/.clang-format .
 cp "$dir"/CMakeLists.txt .
+cp "$dir"/LICENCE .
 
 ## Replace the project name.
 sed -i "s/hello/$1/g" CMakeLists.txt
