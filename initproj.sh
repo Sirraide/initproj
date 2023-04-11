@@ -33,7 +33,7 @@ cp "$dir"/CMakeLists.txt .
 ## Replace the project name.
 sed -i "s/hello/$1/g" CMakeLists.txt
 sed -i "s/hello/$1/g" .gitignore
-sed -i "s/HELLO_/$(echo "$1" | tr a-z A-Z)_/g" src/utils.hh
+sed -i "s/HELLO_/$(echo "$1" | tr a-z A-Z | tr '-' '_')_/g" src/utils.hh
 find .idea -type f -exec grep -q hello {} \; -print0 | xargs -0 sed -i "s/hello/$1/g"
 
 ## Initialise a git repository and add fmt and clopts as submodules.
