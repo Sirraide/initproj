@@ -23,6 +23,7 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clan
     find_program(MOLD_LINKER "mold")
     if (MOLD_LINKER)
         add_compile_options(-fuse-ld=mold)
+        add_link_options(-fuse-ld=mold)
     endif()
 endif()
 
@@ -134,6 +135,19 @@ endif()
 ## ============================================================================
 ##  Submodules and include dirs.
 ## ============================================================================
+## Find libfmt.
+find_package(fmt CONFIG)
+if (NOT DEFINED fmt_FOUND)
+    include(FetchContent)
+	message(STATUS "Fmtlib not found, downloading ...")
+	FetchContent_Declare(fmtlib
+		GIT_REPOSITORY https://github.com/fmtlib/fmt.git
+		GIT_TAG 10.0.0
+		SOURCE_DIR "${CMAKE_CURRENT_BINARY_DIR}/libs/fmt"
+    )
+	FetchContent_MakeAvailable(fmtlib)
+endif()
+
 ## Link against libfmt.
 target_link_libraries(options INTERFACE fmt)
 

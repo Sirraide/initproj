@@ -37,8 +37,6 @@ sed -i "s/hello/$1/g" .gitignore
 sed -i "s/HELLO_/$(echo "$1" | tr a-z A-Z | tr '-' '_')_/g" src/utils.hh
 find .idea -type f -exec grep -q hello {} \; -print0 | xargs -0 sed -i "s/hello/$1/g"
 
-## Initialise a git repository and add fmt and clopts as submodules.
+## Initialise a git repository
 git init
-git submodule add https://github.com/fmtlib/fmt libs/fmt
-git submodule add https://github.com/Sirraide/clopts libs/clopts
 git add .
