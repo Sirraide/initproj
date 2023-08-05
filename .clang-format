@@ -132,8 +132,8 @@ BitFieldColonSpacing: Both
 ## Note: Only supported by clang-format 16 and later.
 #BreakAfterAttributes: Leave
 
-## Break *before*, and not after operators (excepting `=` and friends).
-BreakBeforeBinaryOperators: NonAssignment
+## Break *after*, and not before operators.
+BreakBeforeBinaryOperators: None
 
 ## NEVER put opening braces on a new line.
 BreakBeforeBraces: Attach
