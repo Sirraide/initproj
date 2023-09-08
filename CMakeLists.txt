@@ -103,6 +103,9 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
 
         # Allow unnamed structs/unions.
         /wd4201
+
+        # Source code is UTF-8.
+        /utf-8
     )
 endif()
 
@@ -137,7 +140,7 @@ endif()
 ## ============================================================================
 ## Find libfmt.
 find_package(fmt CONFIG)
-if (NOT DEFINED fmt_FOUND)
+if (NOT fmt_FOUND)
     include(FetchContent)
 	message(STATUS "Fmtlib not found, downloading ...")
 	FetchContent_Declare(fmtlib

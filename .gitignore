@@ -4,9 +4,9 @@
 .cache/
 
 ## Build files.
-out/
-hello
-hello.exe
+/out/
+/hello
+/hello.exe
 
 ## Valgrind.
 callgrind.out.*
