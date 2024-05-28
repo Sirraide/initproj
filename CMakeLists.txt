@@ -1,10 +1,10 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.27)
 project(hello VERSION 0.1.0 LANGUAGES CXX)
 
 ## ============================================================================
 ##  Global CMake Variables.
 ## ============================================================================
-set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD 26)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR})
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -22,7 +22,9 @@ endif()
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     find_program(MOLD_LINKER "mold")
     if (MOLD_LINKER)
-        add_compile_options(-fuse-ld=mold)
+        if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+            add_compile_options(-fuse-ld=mold)
+        endif()
         add_link_options(-fuse-ld=mold)
     endif()
 endif()
@@ -38,7 +40,6 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clan
         ## Warnings.
         -Wall -Wextra     # Enable ‘all’ warnings.
         -Wundef           # Invalid #undef or undefined macro in #if.
-        -Wshadow          # Shadowing.
         -Wcast-align      # Casting that changes alignment.
         -Wconversion      # Implicit conversions.
         -Wsign-conversion # Implicit sign conversions.
@@ -47,7 +48,6 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clan
         ## Disabled warnings.
         -Wno-unused-function
         -Wno-unused-local-typedefs
-        -Wno-unused-parameter
 
         ## NULL Errors.
         -Werror=nonnull # Passing NULL to nonnull parameter.
@@ -63,7 +63,6 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clan
 
         ## C/C++.
         -Werror=implicit-fallthrough
-        -Werror=missing-include-dirs # User-specified include dir does not exist.
         -Werror=pointer-arith        # Disallow void* and function pointer arithmetic.
         -Werror=string-compare       # Nonsensical string comparisons.
         -Werror=switch               # Missing switch cases.
@@ -118,10 +117,16 @@ if (WIN32)
     )
 endif()
 
+## Address Sanitiser.
+if (ENABLE_ASAN)
+    target_compile_options(options INTERFACE -fsanitize=address)
+    target_link_options(options INTERFACE -fsanitize=address)
+endif()
+
 ## Debug/Release flags.
 if (NOT MSVC)
     target_compile_options(options INTERFACE
-        $<$<CONFIG:DEBUG>:-O0 -g3 -ggdb3 -rdynamic>
+        $<$<CONFIG:DEBUG>:-O0 -g3 -ggdb3>
         $<$<CONFIG:RELEASE>:-O3 -march=native>
     )
     target_link_options(options INTERFACE
