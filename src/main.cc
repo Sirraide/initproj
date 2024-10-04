@@ -1,5 +1,5 @@
 #include <utils.hh>
 
 int main() {
-    fmt::print("Hello, {}!\n", "world");
+    std::print("Hello, {}!\n", "world");
 }

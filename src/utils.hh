@@ -1,7 +1,7 @@
 #ifndef HELLO_UTILS_HH
 #define HELLO_UTILS_HH
 
-#include <fmt/format.h>
+#include <print>
 
 using u8 = uint8_t;
 using u16 = uint16_t;
@@ -23,10 +23,10 @@ using iptr = intptr_t;
 #define CAT_(X, Y) X##Y
 #define CAT(X, Y) CAT_(X, Y)
 
-template <typename ...arguments>
-[[noreturn]] void die(fmt::format_string<arguments...> fmt, arguments&& ...args) {
-    fmt::print(stderr, fmt, std::forward<arguments>(args)...);
-    fmt::print(stderr, "\n");
+template <typename ...Args>
+[[noreturn]] void Die(std::format_string<Args...> fmt, Args&& ...args) {
+    std::print(stderr, fmt, std::forward<Args>(args)...);
+    std::println(stderr);
     std::exit(1);
 }
 

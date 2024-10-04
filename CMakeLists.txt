@@ -143,23 +143,7 @@ endif()
 ## ============================================================================
 ##  Submodules and include dirs.
 ## ============================================================================
-## Find libfmt.
-find_package(fmt CONFIG)
-if (NOT fmt_FOUND)
-    include(FetchContent)
-	message(STATUS "Fmtlib not found, downloading ...")
-	FetchContent_Declare(fmtlib
-		GIT_REPOSITORY https://github.com/fmtlib/fmt.git
-		GIT_TAG 10.0.0
-		SOURCE_DIR "${CMAKE_CURRENT_BINARY_DIR}/libs/fmt"
-    )
-	FetchContent_MakeAvailable(fmtlib)
-endif()
-
-## Link against libfmt.
-target_link_libraries(options INTERFACE fmt)
-
-## ‘src’ should be an include directory.
+# ‘src’ should be an include directory.
 target_include_directories(options INTERFACE src)
 
 ## ‘include’ too, if it exists.
