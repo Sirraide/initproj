@@ -173,6 +173,14 @@ if (EXISTS ${PROJECT_SOURCE_DIR}/libs)
     endforeach()
 endif()
 
+## Add libbase.
+include(FetchContent)
+FetchContent_Declare(base
+    GIT_REPOSITORY https://github.com/Sirraide/libbase
+    GIT_TAG master
+)
+FetchContent_MakeAvailable(base)
+
 ## ============================================================================
 ##  Executables and libraries.
 ## ============================================================================
@@ -182,11 +190,11 @@ file(GLOB_RECURSE sources src/*.cc src/*.hh)
 ## As well as everything in ‘include’, if it exists.
 if (EXISTS ${PROJECT_SOURCE_DIR}/include)
     file(GLOB_RECURSE includes include/*.hh)
-    list(APPEND sources ${includes})
 endif()
 
 ## Add the executable.
 add_executable(hello ${sources})
+target_sources(hello PRIVATE FILE_SET HEADERS FILES ${includes})
 
 ## Apply our options.
-target_link_libraries(hello PRIVATE options)
+target_link_libraries(hello PRIVATE options libbase)

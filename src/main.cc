@@ -1,5 +1,6 @@
-#include <utils.hh>
+#include <base/Base.hh>
+#include <print>
 
 int main() {
-    std::print("Hello, {}!\n", "world");
+    std::println("Hello, {}!", "world");
 }
