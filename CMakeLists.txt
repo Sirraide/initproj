@@ -126,7 +126,7 @@ endif()
 ## Debug/Release flags.
 if (NOT MSVC)
     target_compile_options(options INTERFACE
-        $<$<CONFIG:DEBUG>:-O0 -g3 -ggdb3>
+        $<$<CONFIG:DEBUG>:-O0 -g3 -ggdb3 -D_GLIBCXX_ASSERTIONS>
         $<$<CONFIG:RELEASE>:-O3 -march=native>
     )
     target_link_options(options INTERFACE
@@ -141,37 +141,10 @@ else()
 endif()
 
 ## ============================================================================
-##  Submodules and include dirs.
+##  Dependencies and include dirs.
 ## ============================================================================
-# ‘src’ should be an include directory.
-target_include_directories(options INTERFACE src)
-
-## ‘include’ too, if it exists.
-if (EXISTS ${PROJECT_SOURCE_DIR}/include)
-    target_include_directories(options INTERFACE include)
-endif()
-
-## As well as everything in ‘libs’.
-if (EXISTS ${PROJECT_SOURCE_DIR}/libs)
-    file(GLOB libs ${PROJECT_SOURCE_DIR}/libs/*)
-
-    ## Add the include directory to the include path, or the root
-    ## directory if there is no include directory.
-    foreach(lib ${libs})
-        if (IS_DIRECTORY ${lib}/include)
-            target_include_directories(options INTERFACE ${lib}/include)
-        else()
-            target_include_directories(options INTERFACE ${lib})
-        endif()
-    endforeach()
-
-    ## Also add all of them as subdirectories if they have a CMakeLists.txt.
-    foreach (lib ${libs})
-        if (EXISTS ${lib}/CMakeLists.txt)
-            add_subdirectory(${lib})
-        endif()
-    endforeach()
-endif()
+# ‘include’ should be an include directory.
+target_include_directories(options INTERFACE include)
 
 ## Add libbase.
 include(FetchContent)
@@ -184,17 +157,12 @@ FetchContent_MakeAvailable(base)
 ## ============================================================================
 ##  Executables and libraries.
 ## ============================================================================
-## Everything in ‘src’ is part of the project.
-file(GLOB_RECURSE sources src/*.cc src/*.hh)
-
-## As well as everything in ‘include’, if it exists.
-if (EXISTS ${PROJECT_SOURCE_DIR}/include)
-    file(GLOB_RECURSE includes include/*.hh)
-endif()
+file(GLOB_RECURSE sources src/*.cc)
+file(GLOB_RECURSE headers include/*.hh src/*.hh)
 
 ## Add the executable.
 add_executable(hello ${sources})
-target_sources(hello PRIVATE FILE_SET HEADERS FILES ${includes})
+target_sources(hello PRIVATE FILE_SET HEADERS FILES ${headers})
 
 ## Apply our options.
 target_link_libraries(hello PRIVATE options libbase)
